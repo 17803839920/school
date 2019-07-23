@@ -18,3 +18,4 @@
 5.git commit -m “initial commit”
 6.git remote add origin git@github.com:username/project.git	#项目的SSH地址：git@github.com:username/project.git
 7.git push origin master
+8.如果commit错了，想要重新commit,就用 git commit --amend --no-edit
