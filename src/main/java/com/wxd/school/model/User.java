@@ -1,5 +1,8 @@
 package com.wxd.school.model;
 
+import lombok.Data;
+
+@Data
 public class User {
     private Integer id;
     private String name;
@@ -7,6 +10,7 @@ public class User {
     private String token;
     private Long gmt_create;
     private Long gmt_modified;
+    private String avatarUrl;
 
     public Integer getId() {
         return id;
@@ -54,5 +58,13 @@ public class User {
 
     public void setGmt_modified(Long gmt_modified) {
         this.gmt_modified = gmt_modified;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }

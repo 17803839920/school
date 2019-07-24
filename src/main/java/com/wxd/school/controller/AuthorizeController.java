@@ -44,6 +44,7 @@ public class AuthorizeController {
         accessTokenDTO.setState(state);
         accessTokenDTO.setClient_id(clientId);
         accessTokenDTO.setClient_secret(clientSecret);
+
         /**
          * 根据Github跳转到callback地址，地址上包含code,state；然后将DTO对象的五个属性发送（利用OKHTTP的POST）到github
          * 会从github获取到accesstoken
@@ -60,6 +61,7 @@ public class AuthorizeController {
             user.setAccount_id(String.valueOf(githubUser.getId()));
             user.setGmt_create(System.currentTimeMillis());
             user.setGmt_modified(user.getGmt_create());
+            user.setAvatarUrl(githubUser.getAvatar_url());
             userMapper.insert(user);
             response.addCookie(new Cookie("token", token));
             return "redirect:/";
