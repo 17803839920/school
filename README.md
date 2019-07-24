@@ -15,10 +15,21 @@
 2.git config --global user.email "youremail@mail.com"	#输入注册邮箱
 3.git init #初始化
 4.git add .
-5.git commit -m “initial commit”
+5.git commit -m “initial commit” 
 6.git remote add origin git@github.com:username/project.git	#项目的SSH地址：git@github.com:username/project.git
 7.git push origin master
 8.如果commit错了，想要重新commit,就用 git commit --amend --no-edit
+
+##更新项目时的GitHub上传命令
+1、git status查看当前状态
+2、git add .
+3、git commit -m ""
+4、git push
+##如果在远端提交GitHub之后
+1、git pull
+2、ESC shift+: x
+3、git push
+
 
 ##资料
 [github OAuth](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/)
