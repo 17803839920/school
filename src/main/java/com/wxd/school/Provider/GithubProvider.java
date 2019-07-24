@@ -10,6 +10,12 @@ import java.io.IOException;
 
 @Component
 public class GithubProvider {
+
+    /**
+     * accessTokenDTO携带code，用OKHTTP POST将accessTokenDTO对象 发送到GitHub，以获取accessToken
+     * @param accessTokenDTO
+     * @return
+     */
     public String getAccessToken(AccessTokenDTO accessTokenDTO){
         MediaType mediaType = MediaType.get("application/json; charset=utf-8");
         OkHttpClient client = new OkHttpClient();
@@ -28,7 +34,11 @@ public class GithubProvider {
         return null;
     }
 
-
+    /**
+     * 将accessToken利用OKHTTP GET发送到GitHub，以获取GithubUser信息。
+     * @param accessToken
+     * @return
+     */
     public GithubUser getUser(String accessToken){
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
