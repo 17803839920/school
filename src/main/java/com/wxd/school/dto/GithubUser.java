@@ -3,7 +3,7 @@ package com.wxd.school.dto;
 public class GithubUser {
     private String name;
     private Long id;
-    private String bio;
+    private String bio;//用户简介
 
     public String getName() {
         return name;
