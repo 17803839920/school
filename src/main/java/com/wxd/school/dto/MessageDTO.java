@@ -1,9 +1,10 @@
-package com.wxd.school.model;
+package com.wxd.school.dto;
 
+import com.wxd.school.model.User;
 import lombok.Data;
 
 @Data
-public class Message {
+public class MessageDTO {
     private Integer id;
     private String title;
     private String description;
@@ -14,5 +15,5 @@ public class Message {
     private Integer viewCount;
     private Integer likeCount;
     private Integer conmmentCount;
-
+    private User user;
 }
