@@ -5,6 +5,7 @@ import com.wxd.school.dto.AccessTokenDTO;
 import com.wxd.school.dto.GithubUser;
 import com.wxd.school.mapper.UserMapper;
 import com.wxd.school.model.User;
+import com.wxd.school.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -31,7 +32,7 @@ public class AuthorizeController {
     private String redirectUri;
 
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
@@ -58,11 +59,9 @@ public class AuthorizeController {
             String token = UUID.randomUUID().toString();
             user.setToken(token);//自己创建的cookie
             user.setName(githubUser.getName());
-            user.setAccount_id(String.valueOf(githubUser.getId()));
-            user.setGmt_create(System.currentTimeMillis());
-            user.setGmt_modified(user.getGmt_create());
+            user.setAccountId(String.valueOf(githubUser.getId()));
             user.setAvatarUrl(githubUser.getAvatarUrl());
-            userMapper.insert(user);
+            userService.createOrUpdate(user);
             response.addCookie(new Cookie("token", token));
             return "redirect:/";
         } else {

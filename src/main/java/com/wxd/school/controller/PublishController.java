@@ -1,27 +1,35 @@
 package com.wxd.school.controller;
 
-import com.wxd.school.mapper.MessageMapper;
-import com.wxd.school.mapper.UserMapper;
+import com.wxd.school.dto.MessageDTO;
 import com.wxd.school.model.Message;
 import com.wxd.school.model.User;
+import com.wxd.school.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class PublishController {
 
     @Autowired
-    private MessageMapper messageMapper;
+    private MessageService messageService;
 
-    @Autowired
-    private UserMapper userMapper;
+    @GetMapping("/publish/{id}")
+    public String edit(@PathVariable(name = "id") Integer id,
+                       Model model){
+        MessageDTO message = messageService.getById(id);
+        model.addAttribute("title",message.getTitle());
+        model.addAttribute("description",message.getDescription());
+        model.addAttribute("tag",message.getTag());
+        model.addAttribute("id",id);
+        return "publish";
+    }
 
     @GetMapping("/publish")
     public String publist(){
@@ -29,9 +37,10 @@ public class PublishController {
     }
 
     @PostMapping("/publish")
-    public String create(@RequestParam("title") String title,
-                         @RequestParam("description") String description,
-                         @RequestParam("tag") String tag,
+    public String create(@RequestParam(value = "title", required = false) String title,
+                         @RequestParam(value ="description", required = false) String description,
+                         @RequestParam(value ="tag",required = false) String tag,
+                         @RequestParam(value = "id",required = false) Integer id,
                          HttpServletRequest request,
                          Model model){
         model.addAttribute("title",title);
@@ -50,20 +59,7 @@ public class PublishController {
             return "publish";
         }
 
-        User user = null;
-        Cookie[] cookies = request.getCookies();
-        if(cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    String token = cookie.getValue();
-                    user = userMapper.select(token);
-                    if (user != null) {
-                        request.getSession().setAttribute("user", user);
-                    }
-                    break;
-                }
-            }
-        }
+        User user = (User) request.getSession().getAttribute("user");
         if(user == null) {
             model.addAttribute("error", "用户未登录");
             return "publish";
@@ -73,9 +69,8 @@ public class PublishController {
         message.setDescription(description);
         message.setTag(tag);
         message.setCreatorId(user.getId());
-        message.setGmtCreate(System.currentTimeMillis());
-        message.setGmtModified(message.getGmtCreate());
-        messageMapper.create(message);
+        message.setId(id);
+        messageService.createOrUpdate(message);
         return "redirect:/";
     }
 }

@@ -14,6 +14,6 @@ public class MessageDTO {
     private Integer creatorId;
     private Integer viewCount;
     private Integer likeCount;
-    private Integer conmmentCount;
+    private Integer commentCount;
     private User user;
 }

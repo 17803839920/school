@@ -13,6 +13,6 @@ public class Message {
     private Integer creatorId;
     private Integer viewCount;
     private Integer likeCount;
-    private Integer conmmentCount;
+    private Integer commentCount;
 
 }
