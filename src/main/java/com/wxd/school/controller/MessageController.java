@@ -18,7 +18,11 @@ public class MessageController {
     @GetMapping("/message/{id}")
     public String showMessage(@PathVariable(name = "id") Integer id,
                               Model model){
+
         MessageDTO messageDTO = messageService.getById(id);
+        //计算累加浏览数
+        messageService.sumView(id);
+
         model.addAttribute("message",messageDTO);
         return "message";
     }

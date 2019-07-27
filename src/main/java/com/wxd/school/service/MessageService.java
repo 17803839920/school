@@ -137,4 +137,11 @@ public class MessageService {
         }
     }
 
+    public void sumView(Integer id) {
+        Message message = new Message();
+        message.setId(id);
+        message.setViewCount(1);
+        messageMapper.updateView(message);
+
+    }
 }
